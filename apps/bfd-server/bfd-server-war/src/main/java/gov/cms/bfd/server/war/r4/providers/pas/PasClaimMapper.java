@@ -248,7 +248,7 @@ public final class PasClaimMapper {
       }
       normalized.addCoding(
           new Coding()
-              .setSystem(system != null ? system : PasConstants.CODE_SYSTEM_ICD10_CM)
+              .setSystem(system)
               .setCode(coding.getCode())
               .setDisplay(coding.getDisplay())
               .setVersion(coding.getVersion()));

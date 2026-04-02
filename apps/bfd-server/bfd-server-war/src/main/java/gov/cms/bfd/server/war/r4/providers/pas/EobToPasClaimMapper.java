@@ -43,10 +43,8 @@ public class EobToPasClaimMapper {
     claim.setUse(Claim.Use.PREAUTHORIZATION);
     claim.setStatus(Claim.ClaimStatus.ACTIVE);
 
-    // Map type from EOB
-    if (eob.hasType()) {
-      claim.setType(eob.getType());
-    }
+    // Map type from EOB — normalize BFD-specific codes to PAS-conformant FHIR claim types
+    claim.setType(PasClaimMapper.mapClaimType(eob));
 
     // Map patient reference
     if (eob.hasPatient()) {
