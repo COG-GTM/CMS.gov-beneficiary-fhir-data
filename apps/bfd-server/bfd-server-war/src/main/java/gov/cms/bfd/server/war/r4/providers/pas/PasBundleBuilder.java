@@ -53,7 +53,7 @@ public final class PasBundleBuilder {
 
     // Build CMS Insurer Organization
     Organization insurer = buildCmsInsurer();
-    String insurerFullUrl = "urn:uuid:" + insurer.getId();
+    String insurerFullUrl = "urn:uuid:" + UUID.randomUUID().toString();
 
     // Build Requestor Organization
     Organization requestor = buildRequestorOrganization(eob);

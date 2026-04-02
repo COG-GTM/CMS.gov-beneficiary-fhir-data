@@ -100,6 +100,7 @@ public final class PasClaimMapper {
     String display = "Institutional";
 
     if (eob.getType() != null && eob.getType().hasCoding()) {
+      boolean matched = false;
       for (Coding coding : eob.getType().getCoding()) {
         String sourceCode = coding.getCode();
         if (sourceCode != null) {
@@ -107,18 +108,22 @@ public final class PasClaimMapper {
             case "71":
             case "72":
             case "CARRIER":
+            case "HHA":
+            case "DME":
               code = "professional";
               display = "Professional";
+              matched = true;
               break;
             case "PDE":
               code = "pharmacy";
               display = "Pharmacy";
+              matched = true;
               break;
             default:
-              // institutional covers inpatient, outpatient, SNF, HHA, hospice
-              code = "institutional";
-              display = "Institutional";
               break;
+          }
+          if (matched) {
+            break;
           }
         }
       }

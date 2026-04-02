@@ -173,6 +173,33 @@ class PasClaimMapperTest {
         "99214", claim.getItem().get(0).getProductOrService().getCodingFirstRep().getCode());
   }
 
+  /** Verifies that mapClaimType handles multi-coding EOBs without overwriting correct result. */
+  @Test
+  void testMapClaimType_multiCodingDoesNotOverwrite() {
+    // BFD EOBs carry multiple codings: NCH_CLM_TYPE_CD, BFD EOB type, and FHIR ClaimType
+    ExplanationOfBenefit eob = new ExplanationOfBenefit();
+    CodeableConcept type = new CodeableConcept();
+    type.addCoding(
+        new Coding()
+            .setSystem("https://bluebutton.cms.gov/resources/variables/nch_clm_type_cd")
+            .setCode("71")
+            .setDisplay("Carrier"));
+    type.addCoding(
+        new Coding()
+            .setSystem("https://bluebutton.cms.gov/resources/codesystem/eob-type")
+            .setCode("CARRIER")
+            .setDisplay("Carrier"));
+    type.addCoding(
+        new Coding()
+            .setSystem("http://terminology.hl7.org/CodeSystem/claim-type")
+            .setCode("professional")
+            .setDisplay("Professional"));
+    eob.setType(type);
+
+    CodeableConcept result = PasClaimMapper.mapClaimType(eob);
+    assertEquals("professional", result.getCodingFirstRep().getCode());
+  }
+
   /** Verifies that ICD-10 code system URLs are normalized. */
   @Test
   void testNormalizeIcd10Code() {
@@ -192,9 +219,9 @@ class PasClaimMapperTest {
   /**
    * Creates a sample ExplanationOfBenefit for testing.
    *
-   * @param typeCode the claim type code
+   * @param typeCode the claim type code (BFD EOB type)
    * @param typeDisplay the claim type display
-   * @return a sample EOB
+   * @return a sample EOB with a single coding on its type
    */
   private ExplanationOfBenefit createSampleEob(String typeCode, String typeDisplay) {
     ExplanationOfBenefit eob = new ExplanationOfBenefit();

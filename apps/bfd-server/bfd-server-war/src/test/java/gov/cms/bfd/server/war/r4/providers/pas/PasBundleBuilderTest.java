@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
+import java.util.UUID;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.CodeableConcept;
@@ -55,6 +56,9 @@ class PasBundleBuilderTest {
     for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
       assertNotNull(entry.getFullUrl());
       assertTrue(entry.getFullUrl().startsWith("urn:uuid:"));
+      // Validate that the UUID portion is a valid RFC 4122 UUID
+      String uuidPart = entry.getFullUrl().substring("urn:uuid:".length());
+      UUID.fromString(uuidPart); // throws IllegalArgumentException if not valid UUID
       Resource resource = entry.getResource();
       assertNotNull(resource);
 
