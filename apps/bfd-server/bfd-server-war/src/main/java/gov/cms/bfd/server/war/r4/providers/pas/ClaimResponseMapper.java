@@ -12,7 +12,6 @@ import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Reference;
-import org.hl7.fhir.r4.model.RemittanceOutcome;
 import org.hl7.fhir.r4.model.StringType;
 import org.springframework.stereotype.Component;
 
@@ -209,21 +208,21 @@ public class ClaimResponseMapper {
    * @param disposition the disposition
    * @return the corresponding RemittanceOutcome
    */
-  public static RemittanceOutcome mapOutcome(PasConstants.Disposition disposition) {
+  public static ClaimResponse.RemittanceOutcome mapOutcome(PasConstants.Disposition disposition) {
     if (disposition == null) {
-      return RemittanceOutcome.QUEUED;
+      return ClaimResponse.RemittanceOutcome.QUEUED;
     }
     switch (disposition) {
       case GRANTED:
       case DENIED:
       case CANCELLED:
-        return RemittanceOutcome.COMPLETE;
+        return ClaimResponse.RemittanceOutcome.COMPLETE;
       case PARTIAL:
-        return RemittanceOutcome.PARTIAL;
+        return ClaimResponse.RemittanceOutcome.PARTIAL;
       case PENDING:
       case UNKNOWN:
       default:
-        return RemittanceOutcome.QUEUED;
+        return ClaimResponse.RemittanceOutcome.QUEUED;
     }
   }
 }

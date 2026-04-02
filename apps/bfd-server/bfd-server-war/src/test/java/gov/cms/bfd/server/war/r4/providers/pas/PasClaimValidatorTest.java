@@ -60,7 +60,9 @@ class PasClaimValidatorTest {
   @Test
   void testBundleWithoutClaimAsFirstEntryFails() {
     Bundle bundle = new Bundle();
-    bundle.addEntry().setResource(new Patient());
+    Patient patient = new Patient();
+    patient.setId("non-claim-patient");
+    bundle.addEntry().setResource(patient);
 
     OperationOutcome outcome = validator.validate(bundle);
 
@@ -143,6 +145,21 @@ class PasClaimValidatorTest {
     assertFalse(validator.isValid(outcome));
     assertTrue(
         outcome.getIssue().stream().anyMatch(i -> i.getDiagnostics().contains("must have a type")));
+  }
+
+  @Test
+  void testClaimMissingInsurerFails() {
+    Bundle bundle = new Bundle();
+    Claim claim = createBasicClaim();
+    claim.setInsurer(null);
+    bundle.addEntry().setResource(claim);
+
+    OperationOutcome outcome = validator.validate(bundle);
+
+    assertFalse(validator.isValid(outcome));
+    assertTrue(
+        outcome.getIssue().stream()
+            .anyMatch(i -> i.getDiagnostics().contains("must have an insurer reference")));
   }
 
   @Test
@@ -273,6 +290,7 @@ class PasClaimValidatorTest {
                 "Professional")));
     claim.setPatient(new Reference("Patient/test-patient"));
     claim.setProvider(new Reference("Practitioner/test-provider"));
+    claim.setInsurer(new Reference("Organization/test-org"));
     claim.setPriority(
         new CodeableConcept(
             new Coding(
@@ -305,6 +323,7 @@ class PasClaimValidatorTest {
                 "Professional")));
     claim.setPatient(new Reference("Patient/test-patient"));
     claim.setProvider(new Reference("Practitioner/test-provider"));
+    claim.setInsurer(new Reference("Organization/test-org"));
     claim.setPriority(
         new CodeableConcept(
             new Coding(
@@ -331,5 +350,9 @@ class PasClaimValidatorTest {
     Coverage coverage = new Coverage();
     coverage.setId("test-coverage");
     bundle.addEntry().setResource(coverage);
+
+    Organization insurer = new Organization();
+    insurer.setId("test-org");
+    bundle.addEntry().setResource(insurer);
   }
 }

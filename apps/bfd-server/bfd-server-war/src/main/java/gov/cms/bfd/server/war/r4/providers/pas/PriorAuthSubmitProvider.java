@@ -58,7 +58,7 @@ public class PriorAuthSubmitProvider implements IResourceProvider {
    * @throws InvalidRequestException if the bundle is null or empty
    * @throws UnprocessableEntityException if the bundle fails validation
    */
-  @Operation(name = "$submit", resourceType = Claim.class)
+  @Operation(name = "$submit", type = Claim.class)
   public Bundle submitOperation(
       @OperationParam(name = "resource", min = 1, max = 1) Bundle bundle) {
 

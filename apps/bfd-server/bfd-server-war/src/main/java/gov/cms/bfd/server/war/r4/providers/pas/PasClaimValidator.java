@@ -65,6 +65,9 @@ public class PasClaimValidator {
     if (!claim.hasProvider()) {
       errors.add("Claim must have a provider reference");
     }
+    if (!claim.hasInsurer()) {
+      errors.add("Claim must have an insurer reference");
+    }
     if (!claim.hasPriority()) {
       errors.add("Claim must have a priority");
     }
@@ -136,6 +139,9 @@ public class PasClaimValidator {
     }
     if (claim.hasProvider() && claim.getProvider().hasReference()) {
       referenceStrings.add(claim.getProvider().getReference());
+    }
+    if (claim.hasInsurer() && claim.getInsurer().hasReference()) {
+      referenceStrings.add(claim.getInsurer().getReference());
     }
     if (claim.hasInsurance()) {
       for (Claim.InsuranceComponent ins : claim.getInsurance()) {

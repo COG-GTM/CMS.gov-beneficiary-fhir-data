@@ -14,7 +14,6 @@ import org.hl7.fhir.r4.model.ClaimResponse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Reference;
-import org.hl7.fhir.r4.model.RemittanceOutcome;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,7 @@ class ClaimResponseMapperTest {
 
     assertNotNull(response);
     assertEquals("Granted", response.getDisposition());
-    assertEquals(RemittanceOutcome.COMPLETE, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.COMPLETE, response.getOutcome());
   }
 
   @Test
@@ -50,7 +49,7 @@ class ClaimResponseMapperTest {
     ClaimResponse response = mapper.buildResponse(claim, actions);
 
     assertEquals("Denied", response.getDisposition());
-    assertEquals(RemittanceOutcome.COMPLETE, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.COMPLETE, response.getOutcome());
   }
 
   @Test
@@ -62,7 +61,7 @@ class ClaimResponseMapperTest {
     ClaimResponse response = mapper.buildResponse(claim, actions);
 
     assertEquals("Partial", response.getDisposition());
-    assertEquals(RemittanceOutcome.PARTIAL, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.PARTIAL, response.getOutcome());
   }
 
   @Test
@@ -74,7 +73,7 @@ class ClaimResponseMapperTest {
     ClaimResponse response = mapper.buildResponse(claim, actions);
 
     assertEquals("Pending", response.getDisposition());
-    assertEquals(RemittanceOutcome.QUEUED, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.QUEUED, response.getOutcome());
   }
 
   @Test
@@ -87,7 +86,7 @@ class ClaimResponseMapperTest {
 
     assertNotNull(response);
     assertEquals("Cancelled", response.getDisposition());
-    assertEquals(RemittanceOutcome.COMPLETE, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.COMPLETE, response.getOutcome());
   }
 
   @Test
@@ -181,7 +180,7 @@ class ClaimResponseMapperTest {
 
     assertNotNull(response);
     assertEquals("Pending", response.getDisposition());
-    assertEquals(RemittanceOutcome.QUEUED, response.getOutcome());
+    assertEquals(ClaimResponse.RemittanceOutcome.QUEUED, response.getOutcome());
     assertEquals(3, response.getItem().size());
   }
 
@@ -220,33 +219,34 @@ class ClaimResponseMapperTest {
   @Test
   void testMapOutcomeGranted() {
     assertEquals(
-        RemittanceOutcome.COMPLETE,
+        ClaimResponse.RemittanceOutcome.COMPLETE,
         ClaimResponseMapper.mapOutcome(PasConstants.Disposition.GRANTED));
   }
 
   @Test
   void testMapOutcomeDenied() {
     assertEquals(
-        RemittanceOutcome.COMPLETE,
+        ClaimResponse.RemittanceOutcome.COMPLETE,
         ClaimResponseMapper.mapOutcome(PasConstants.Disposition.DENIED));
   }
 
   @Test
   void testMapOutcomePartial() {
     assertEquals(
-        RemittanceOutcome.PARTIAL,
+        ClaimResponse.RemittanceOutcome.PARTIAL,
         ClaimResponseMapper.mapOutcome(PasConstants.Disposition.PARTIAL));
   }
 
   @Test
   void testMapOutcomePending() {
     assertEquals(
-        RemittanceOutcome.QUEUED, ClaimResponseMapper.mapOutcome(PasConstants.Disposition.PENDING));
+        ClaimResponse.RemittanceOutcome.QUEUED,
+        ClaimResponseMapper.mapOutcome(PasConstants.Disposition.PENDING));
   }
 
   @Test
   void testMapOutcomeNull() {
-    assertEquals(RemittanceOutcome.QUEUED, ClaimResponseMapper.mapOutcome(null));
+    assertEquals(ClaimResponse.RemittanceOutcome.QUEUED, ClaimResponseMapper.mapOutcome(null));
   }
 
   private Claim createClaimWithItems(int itemCount) {

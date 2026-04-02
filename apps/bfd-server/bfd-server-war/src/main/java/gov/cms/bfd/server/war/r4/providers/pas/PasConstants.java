@@ -43,6 +43,39 @@ public final class PasConstants {
   public static final String X12_REVIEW_REASON_CODE_SYSTEM =
       "https://codesystem.x12.org/external/886";
 
+  // PAS Request/Response Bundle Profile URLs
+  public static final String PROFILE_PAS_REQUEST_BUNDLE =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-pas-request-bundle";
+
+  // PAS Resource Profile URLs
+  public static final String PROFILE_PAS_CLAIM =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-claim";
+  public static final String PROFILE_PAS_BENEFICIARY =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-beneficiary";
+  public static final String PROFILE_PAS_COVERAGE =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-coverage";
+  public static final String PROFILE_PAS_INSURER =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-insurer";
+  public static final String PROFILE_PAS_REQUESTOR =
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-requestor";
+
+  // Standard FHIR Code Systems
+  public static final String CODE_SYSTEM_CLAIM_TYPE =
+      "http://terminology.hl7.org/CodeSystem/claim-type";
+  public static final String CODE_SYSTEM_PROCESS_PRIORITY =
+      "http://terminology.hl7.org/CodeSystem/processpriority";
+  public static final String CODE_SYSTEM_ICD10_CM = "http://hl7.org/fhir/sid/icd-10-cm";
+  public static final String CODE_SYSTEM_NPI = "http://hl7.org/fhir/sid/us-npi";
+  public static final String CODE_SYSTEM_CPT = "http://www.ama-assn.org/go/cpt";
+
+  // Identifier Systems
+  public static final String IDENTIFIER_SYSTEM_MBI = "http://hl7.org/fhir/sid/us-mbi";
+
+  // CMS Organization Constants
+  public static final String INSURER_RESOURCE_ID = "cms-insurer";
+  public static final String CMS_ORG_NAME = "Centers for Medicare & Medicaid Services";
+  public static final String CMS_ORG_NPI = "2255500003";
+
   // MBI Identifier System
   public static final String MBI_IDENTIFIER_SYSTEM = "http://hl7.org/fhir/sid/us-mbi";
 
