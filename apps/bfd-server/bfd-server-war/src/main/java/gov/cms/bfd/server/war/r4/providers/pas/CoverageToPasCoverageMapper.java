@@ -2,6 +2,7 @@ package gov.cms.bfd.server.war.r4.providers.pas;
 
 import org.hl7.fhir.r4.model.Coverage;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Meta;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,6 +25,11 @@ public class CoverageToPasCoverageMapper {
     }
 
     Coverage pasCoverage = coverage.copy();
+
+    // Set PAS Coverage profile
+    Meta meta = new Meta();
+    meta.addProfile(PasConstants.PROFILE_PAS_COVERAGE);
+    pasCoverage.setMeta(meta);
 
     // Ensure status is active
     pasCoverage.setStatus(Coverage.CoverageStatus.ACTIVE);

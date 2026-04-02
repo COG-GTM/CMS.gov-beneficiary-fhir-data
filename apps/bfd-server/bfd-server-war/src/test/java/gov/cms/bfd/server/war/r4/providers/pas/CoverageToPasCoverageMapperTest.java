@@ -3,6 +3,7 @@ package gov.cms.bfd.server.war.r4.providers.pas;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hl7.fhir.r4.model.Coverage;
 import org.hl7.fhir.r4.model.Identifier;
@@ -78,6 +79,19 @@ class CoverageToPasCoverageMapperTest {
     // No payor
 
     assertThrows(IllegalArgumentException.class, () -> mapper.map(coverage));
+  }
+
+  @Test
+  void testMapSetsMetaProfileToPasCoverage() {
+    Coverage coverage = createValidCoverage();
+
+    Coverage pasCoverage = mapper.map(coverage);
+
+    assertNotNull(pasCoverage.getMeta(), "Coverage.meta must be present");
+    assertTrue(
+        pasCoverage.getMeta().getProfile().stream()
+            .anyMatch(p -> PasConstants.PROFILE_PAS_COVERAGE.equals(p.getValue())),
+        "Coverage.meta.profile must include PAS Coverage profile URL");
   }
 
   @Test

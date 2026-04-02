@@ -114,6 +114,19 @@ class PatientToPasBeneficiaryMapperTest {
   }
 
   @Test
+  void testMapSetsMetaProfileToPasBeneficiary() {
+    Patient patient = createValidPatient();
+
+    Patient beneficiary = mapper.map(patient);
+
+    assertNotNull(beneficiary.getMeta(), "Patient.meta must be present");
+    assertTrue(
+        beneficiary.getMeta().getProfile().stream()
+            .anyMatch(p -> PasConstants.PROFILE_PAS_BENEFICIARY.equals(p.getValue())),
+        "Patient.meta.profile must include PAS Beneficiary profile URL");
+  }
+
+  @Test
   void testMapReturnsCopy() {
     Patient patient = createValidPatient();
 

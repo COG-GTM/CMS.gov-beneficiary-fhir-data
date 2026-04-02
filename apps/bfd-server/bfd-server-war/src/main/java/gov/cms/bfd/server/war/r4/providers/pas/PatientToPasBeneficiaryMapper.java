@@ -1,6 +1,7 @@
 package gov.cms.bfd.server.war.r4.providers.pas;
 
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,11 @@ public class PatientToPasBeneficiaryMapper {
 
     // The patient is mostly pass-through; we ensure required elements exist
     Patient beneficiary = patient.copy();
+
+    // Set PAS Beneficiary profile
+    Meta meta = new Meta();
+    meta.addProfile(PasConstants.PROFILE_PAS_BENEFICIARY);
+    beneficiary.setMeta(meta);
 
     // Ensure MBI identifier is present
     if (!hasMbiIdentifier(beneficiary)) {

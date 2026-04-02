@@ -13,6 +13,7 @@ import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.ClaimResponse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Reference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -173,6 +174,44 @@ class ClaimResponseMapperTest {
   }
 
   @Test
+  void testBuildResponseReviewActionUsesX12CodeSystem() {
+    Claim claim = createClaimWithItems(1);
+    List<PasConstants.ReviewAction> actions =
+        Collections.singletonList(PasConstants.ReviewAction.APPROVED);
+
+    ClaimResponse response = mapper.buildResponse(claim, actions);
+
+    ClaimResponse.ItemComponent item = response.getItem().get(0);
+    // Find the reviewAction extension and verify it uses the X12 code system
+    Extension reviewAction =
+        item.getExtension().stream()
+            .filter(e -> PasConstants.REVIEW_ACTION_EXTENSION_URL.equals(e.getUrl()))
+            .findFirst()
+            .orElse(null);
+    assertNotNull(reviewAction, "reviewAction extension must be present");
+
+    // The reviewAction extension contains a nested extension with the code
+    Extension codeExt =
+        reviewAction.getExtension().stream()
+            .filter(e -> PasConstants.REVIEW_ACTION_CODE_EXTENSION_URL.equals(e.getUrl()))
+            .findFirst()
+            .orElse(null);
+    assertNotNull(codeExt, "reviewActionCode extension must be present");
+
+    // Verify the coding uses the X12 Review Action code system
+    assertTrue(
+        codeExt.getValue() instanceof CodeableConcept,
+        "reviewActionCode value must be a CodeableConcept");
+    CodeableConcept codeValue = (CodeableConcept) codeExt.getValue();
+    assertTrue(
+        codeValue.getCoding().stream()
+            .anyMatch(
+                c -> PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM.equals(c.getSystem())),
+        "reviewActionCode must use X12 code system: "
+            + PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM);
+  }
+
+  @Test
   void testBuildDefaultResponse() {
     Claim claim = createClaimWithItems(3);
 
@@ -196,6 +235,13 @@ class ClaimResponseMapperTest {
     assertEquals(Bundle.BundleType.COLLECTION, bundle.getType());
     assertEquals(1, bundle.getEntry().size());
     assertTrue(bundle.getEntry().get(0).getResource() instanceof ClaimResponse);
+
+    // Verify Bundle meta.profile includes PAS Response Bundle profile
+    assertNotNull(bundle.getMeta(), "Bundle.meta must be present");
+    assertTrue(
+        bundle.getMeta().getProfile().stream()
+            .anyMatch(p -> PasConstants.PAS_RESPONSE_BUNDLE_PROFILE_URL.equals(p.getValue())),
+        "Bundle.meta.profile must include PAS Response Bundle profile URL");
   }
 
   @Test
