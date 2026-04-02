@@ -178,13 +178,16 @@ public class ClaimResponseMapper {
     boolean atLeastOnePended = false;
 
     for (PasConstants.ReviewAction action : itemReviewActions) {
-      if (action == PasConstants.ReviewAction.APPROVED) {
+      if (action == PasConstants.ReviewAction.APPROVED
+          || action == PasConstants.ReviewAction.PARTIAL) {
         atLeastOneGranted = true;
       } else if (action == PasConstants.ReviewAction.DENIED) {
         atLeastOneDenied = true;
       } else if (action == PasConstants.ReviewAction.PENDED
           || action == PasConstants.ReviewAction.PENDEDFOLLOWUP) {
         atLeastOnePended = true;
+      } else if (action == PasConstants.ReviewAction.CANCELLED) {
+        return PasConstants.Disposition.CANCELLED;
       }
     }
 

@@ -87,8 +87,8 @@ class ClaimResponseMapperTest {
     ClaimResponse response = mapper.buildResponse(claim, actions);
 
     assertNotNull(response);
-    // Cancelled alone falls to UNKNOWN since it's not granted/denied/pended
-    assertEquals("Unknown", response.getDisposition());
+    assertEquals("Cancelled", response.getDisposition());
+    assertEquals(RemittanceOutcome.COMPLETE, response.getOutcome());
   }
 
   @Test
