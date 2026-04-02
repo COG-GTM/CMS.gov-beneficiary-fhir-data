@@ -110,13 +110,30 @@ public final class PasClaimMapper {
             case "CARRIER":
             case "HHA":
             case "DME":
+            case "professional":
               code = "professional";
               display = "Professional";
               matched = true;
               break;
             case "PDE":
+            case "pharmacy":
               code = "pharmacy";
               display = "Pharmacy";
+              matched = true;
+              break;
+            case "institutional":
+              code = "institutional";
+              display = "Institutional";
+              matched = true;
+              break;
+            case "oral":
+              code = "oral";
+              display = "Oral";
+              matched = true;
+              break;
+            case "vision":
+              code = "vision";
+              display = "Vision";
               matched = true;
               break;
             default:

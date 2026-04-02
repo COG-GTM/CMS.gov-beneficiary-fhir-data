@@ -104,7 +104,9 @@ class PasBundleBuilderTest {
     Organization insurer = PasBundleBuilder.buildCmsInsurer();
 
     assertNotNull(insurer);
-    assertEquals(PasConstants.INSURER_RESOURCE_ID, insurer.getId());
+    assertNotNull(insurer.getId());
+    // ID is a UUID (used for urn:uuid: fullUrl in bundles)
+    UUID.fromString(insurer.getId());
     assertEquals(PasConstants.CMS_ORG_NAME, insurer.getName());
     assertTrue(insurer.getActive());
     assertTrue(

@@ -35,7 +35,8 @@ class CoverageToPasCoverageMapperTest {
   @Test
   void testMapDerivesSubscriberIdFromMbiIdentifier() {
     Coverage coverage = createValidCoverage();
-    // No subscriberId set, but has MBI identifier
+    // Clear subscriberId so derivation from MBI identifier triggers
+    coverage.setSubscriberId(null);
     coverage.addIdentifier(
         new Identifier().setSystem(PasConstants.MBI_IDENTIFIER_SYSTEM).setValue("9876543210B"));
 

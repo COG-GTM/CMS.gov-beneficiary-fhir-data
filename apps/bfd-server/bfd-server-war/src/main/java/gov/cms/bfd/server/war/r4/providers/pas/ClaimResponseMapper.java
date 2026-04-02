@@ -69,20 +69,13 @@ public class ClaimResponseMapper {
         ClaimResponse.ItemComponent responseItem = new ClaimResponse.ItemComponent();
         responseItem.setItemSequence(claimItem.getSequence());
 
-        // Add reviewAction extension
-        Extension reviewActionExt = new Extension(PasConstants.REVIEW_ACTION_EXTENSION_URL);
-        reviewActionExt.addExtension(
-            new Extension(
-                PasConstants.REVIEW_ACTION_CODE_EXTENSION_URL, reviewAction.toCodeableConcept()));
-        responseItem.addExtension(reviewActionExt);
-
-        // Add authorizationNumber extension
+        // Add authorizationNumber extension at item level
         responseItem.addExtension(
             new Extension(
                 PasConstants.AUTHORIZATION_NUMBER_EXTENSION_URL,
                 new StringType(UUID.randomUUID().toString())));
 
-        // Add itemPreAuthPeriod extension
+        // Add itemPreAuthPeriod extension at item level
         Period preAuthPeriod = new Period();
         preAuthPeriod.setStart(new Date());
         // Set end to 90 days from now
@@ -92,13 +85,14 @@ public class ClaimResponseMapper {
         responseItem.addExtension(
             new Extension(PasConstants.ITEM_PREAUTH_PERIOD_EXTENSION_URL, preAuthPeriod));
 
-        // Add itemPreAuthIssueDate extension
+        // Add itemPreAuthIssueDate extension at item level
         responseItem.addExtension(
             new Extension(
                 PasConstants.ITEM_PREAUTH_ISSUE_DATE_EXTENSION_URL,
                 new org.hl7.fhir.r4.model.DateType(new Date())));
 
-        // Add empty adjudication to satisfy HAPI requirements
+        // Add adjudication with reviewAction extension
+        // PAS IG requires reviewAction on ClaimResponse.item.adjudication, not item directly
         ClaimResponse.AdjudicationComponent adjudication =
             new ClaimResponse.AdjudicationComponent();
         adjudication.setCategory(
@@ -108,6 +102,14 @@ public class ClaimResponseMapper {
                         "http://terminology.hl7.org/CodeSystem/adjudication",
                         "submitted",
                         "Submitted Amount")));
+
+        // reviewAction extension goes on adjudication per PAS IG
+        Extension reviewActionExt = new Extension(PasConstants.REVIEW_ACTION_EXTENSION_URL);
+        reviewActionExt.addExtension(
+            new Extension(
+                PasConstants.REVIEW_ACTION_CODE_EXTENSION_URL, reviewAction.toCodeableConcept()));
+        adjudication.addExtension(reviewActionExt);
+
         responseItem.addAdjudication(adjudication);
 
         responseItems.add(responseItem);
@@ -157,7 +159,11 @@ public class ClaimResponseMapper {
     meta.addProfile(PasConstants.PAS_RESPONSE_BUNDLE_PROFILE_URL);
     bundle.setMeta(meta);
     bundle.setType(Bundle.BundleType.COLLECTION);
-    bundle.addEntry().setResource(claimResponse);
+    bundle.setTimestamp(new Date());
+    bundle
+        .addEntry()
+        .setFullUrl("urn:uuid:" + UUID.randomUUID().toString())
+        .setResource(claimResponse);
     return bundle;
   }
 

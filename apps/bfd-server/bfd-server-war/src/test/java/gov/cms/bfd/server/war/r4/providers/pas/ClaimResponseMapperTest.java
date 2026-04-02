@@ -126,8 +126,10 @@ class ClaimResponseMapperTest {
     assertEquals(1, response.getItem().size());
 
     ClaimResponse.ItemComponent item = response.getItem().get(0);
+    // reviewAction extension is on adjudication per PAS IG
     assertTrue(
-        item.getExtension().stream()
+        item.getAdjudication().stream()
+            .flatMap(adj -> adj.getExtension().stream())
             .anyMatch(e -> PasConstants.REVIEW_ACTION_EXTENSION_URL.equals(e.getUrl())));
   }
 
@@ -182,13 +184,14 @@ class ClaimResponseMapperTest {
     ClaimResponse response = mapper.buildResponse(claim, actions);
 
     ClaimResponse.ItemComponent item = response.getItem().get(0);
-    // Find the reviewAction extension and verify it uses the X12 code system
+    // Find the reviewAction extension on adjudication per PAS IG
     Extension reviewAction =
-        item.getExtension().stream()
+        item.getAdjudication().stream()
+            .flatMap(adj -> adj.getExtension().stream())
             .filter(e -> PasConstants.REVIEW_ACTION_EXTENSION_URL.equals(e.getUrl()))
             .findFirst()
             .orElse(null);
-    assertNotNull(reviewAction, "reviewAction extension must be present");
+    assertNotNull(reviewAction, "reviewAction extension must be present on adjudication");
 
     // The reviewAction extension contains a nested extension with the code
     Extension codeExt =
@@ -205,10 +208,8 @@ class ClaimResponseMapperTest {
     CodeableConcept codeValue = (CodeableConcept) codeExt.getValue();
     assertTrue(
         codeValue.getCoding().stream()
-            .anyMatch(
-                c -> PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM.equals(c.getSystem())),
-        "reviewActionCode must use X12 code system: "
-            + PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM);
+            .anyMatch(c -> PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM.equals(c.getSystem())),
+        "reviewActionCode must use X12 code system: " + PasConstants.X12_REVIEW_ACTION_CODE_SYSTEM);
   }
 
   @Test

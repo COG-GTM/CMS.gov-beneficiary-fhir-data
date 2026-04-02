@@ -11,6 +11,7 @@ import org.hl7.fhir.r4.model.ExplanationOfBenefit;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.codesystems.ProcessPriority;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,7 @@ public class EobToPasClaimMapper {
     // PAS requires use = PREAUTHORIZATION (not CLAIM like PAC)
     claim.setUse(Claim.Use.PREAUTHORIZATION);
     claim.setStatus(Claim.ClaimStatus.ACTIVE);
+    claim.setCreated(new java.util.Date());
 
     // Map type from EOB — normalize BFD-specific codes to PAS-conformant FHIR claim types
     claim.setType(PasClaimMapper.mapClaimType(eob));
@@ -55,6 +57,15 @@ public class EobToPasClaimMapper {
     if (eob.hasProvider()) {
       claim.setProvider(eob.getProvider());
     }
+
+    // PAS requires at least one identifier
+    claim.addIdentifier(
+        new Identifier()
+            .setSystem("http://example.org/claim-id")
+            .setValue(UUID.randomUUID().toString()));
+
+    // PAS requires insurer reference
+    claim.setInsurer(new Reference().setDisplay("CMS"));
 
     // Set priority to normal
     claim.setPriority(
@@ -87,6 +98,15 @@ public class EobToPasClaimMapper {
         claimItem.setSequence(eobItem.getSequence());
         claimItem.setProductOrService(eobItem.getProductOrService());
 
+        // PAS requires item.category
+        if (eobItem.hasCategory()) {
+          claimItem.setCategory(eobItem.getCategory());
+        } else {
+          claimItem.setCategory(
+              new CodeableConcept(
+                  new Coding("https://codesystem.x12.org/005010/1365", "3", "Consultation")));
+        }
+
         // Add PAS extension: itemRequestedServiceDate from EOB service date
         if (eobItem.hasServicedDateType()) {
           claimItem.addExtension(
@@ -113,11 +133,14 @@ public class EobToPasClaimMapper {
     // Map insurance
     if (eob.hasInsurance()) {
       List<Claim.InsuranceComponent> insurances = new ArrayList<>();
+      int i = 0;
       for (ExplanationOfBenefit.InsuranceComponent eobIns : eob.getInsurance()) {
         Claim.InsuranceComponent claimIns = new Claim.InsuranceComponent();
+        claimIns.setSequence(i + 1);
         claimIns.setFocal(eobIns.getFocal());
         claimIns.setCoverage(eobIns.getCoverage());
         insurances.add(claimIns);
+        i++;
       }
       claim.setInsurance(insurances);
     }

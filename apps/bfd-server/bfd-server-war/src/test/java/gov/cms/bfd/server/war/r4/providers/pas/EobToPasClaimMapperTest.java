@@ -10,8 +10,8 @@ import java.util.Date;
 import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.ExplanationOfBenefit;
+import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Reference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -128,7 +128,7 @@ class EobToPasClaimMapperTest {
     eobItem.setSequence(1);
     eobItem.setProductOrService(
         new CodeableConcept(new Coding("http://www.ama-assn.org/go/cpt", "99213", "Office visit")));
-    eobItem.setServiced(new DateTimeType(new Date()));
+    eobItem.setServiced(new Period().setStart(new Date()).setEnd(new Date()));
     eob.addItem(eobItem);
 
     Claim claim = mapper.map(eob);
