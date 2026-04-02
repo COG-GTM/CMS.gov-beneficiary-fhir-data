@@ -1,0 +1,77 @@
+Script started on 2026-04-02 19:16:23+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="-1" LINES="-1"]
+=== PAS Integration Test Suite ===
+Date: Thu Apr  2 19:16:23 UTC 2026
+Java: openjdk version 25.0.2 2026-01-20 LTS
+
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] Running gov.cms.bfd.server.war.r4.providers.pas.[1mPasBundleBuilderTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.195 s -- in gov.cms.bfd.server.war.r4.providers.pas.[1mPasBundleBuilderTest[m
+[[1;34mINFO[m] Running gov.cms.bfd.server.war.r4.providers.pas.[1mPasClaimMapperTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m8[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 s -- in gov.cms.bfd.server.war.r4.providers.pas.[1mPasClaimMapperTest[m
+[[1;34mINFO[m] Running gov.cms.bfd.server.war.r4.providers.pas.[1mPasProfileValidationTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m9[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.779 s -- in gov.cms.bfd.server.war.r4.providers.pas.[1mPasProfileValidationTest[m
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] [1;32mTests run: 22, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+
+=== FHIR Validator Script ===
+==============================================
+ Da Vinci PAS Profile Validation
+ PAS IG Version: 2.0.1
+ Date: 2026-04-02T19:16:34Z
+==============================================
+
+----------------------------------------------
+Validating: inpatient-pas-bundle.json
+----------------------------------------------
+  [0;32mPASS[0m: resourceType is Bundle
+  [0;32mPASS[0m: Bundle.type is collection
+  [0;32mPASS[0m: Bundle has PAS Request Bundle profile
+  [0;32mPASS[0m: Bundle has entries
+  [0;32mPASS[0m: Bundle contains Claim resource
+  [0;32mPASS[0m: Bundle contains Patient resource
+  [0;32mPASS[0m: Bundle contains Coverage resource
+  [0;32mPASS[0m: Bundle contains Organization resource
+  [0;32mPASS[0m: Claim.use is preauthorization
+  [0;32mPASS[0m: Claim.status is active
+
+----------------------------------------------
+Validating: outpatient-pas-bundle.json
+----------------------------------------------
+  [0;32mPASS[0m: resourceType is Bundle
+  [0;32mPASS[0m: Bundle.type is collection
+  [0;32mPASS[0m: Bundle has PAS Request Bundle profile
+  [0;32mPASS[0m: Bundle has entries
+  [0;32mPASS[0m: Bundle contains Claim resource
+  [0;32mPASS[0m: Bundle contains Patient resource
+  [0;32mPASS[0m: Bundle contains Coverage resource
+  [0;32mPASS[0m: Bundle contains Organization resource
+  [0;32mPASS[0m: Claim.use is preauthorization
+  [0;32mPASS[0m: Claim.status is active
+
+----------------------------------------------
+Validating: professional-pas-bundle.json
+----------------------------------------------
+  [0;32mPASS[0m: resourceType is Bundle
+  [0;32mPASS[0m: Bundle.type is collection
+  [0;32mPASS[0m: Bundle has PAS Request Bundle profile
+  [0;32mPASS[0m: Bundle has entries
+  [0;32mPASS[0m: Bundle contains Claim resource
+  [0;32mPASS[0m: Bundle contains Patient resource
+  [0;32mPASS[0m: Bundle contains Coverage resource
+  [0;32mPASS[0m: Bundle contains Organization resource
+  [0;32mPASS[0m: Claim.use is preauthorization
+  [0;32mPASS[0m: Claim.status is active
+
+==============================================
+ VALIDATION SUMMARY
+==============================================
+  Total checks:  30
+  [0;32mPassed:        30[0m
+  Failed:        0
+  Warnings:      0
+
+[0;32mRESULT: ALL CHECKS PASSED[0m
+Validation report written to: /home/ubuntu/repos/CMS.gov-beneficiary-fhir-data/apps/bfd-server/bfd-server-war/src/test/scripts/../../../target/pas-validation-report.json
+
+Script done on 2026-04-02 19:16:35+00:00 [COMMAND_EXIT_CODE="0"]

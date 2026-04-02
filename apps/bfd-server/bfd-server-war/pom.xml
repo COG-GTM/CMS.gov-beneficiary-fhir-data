@@ -336,6 +336,8 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Da Vinci PAS Integration: HAPI FHIR Validation -->
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-validation</artifactId>
