@@ -101,8 +101,7 @@ class PasProfileValidationTest {
     assertNotNull(claimResponse);
 
     ValidationResult result = fhirValidator.validateWithResult(claimResponse);
-    logAndReportValidation(
-        "ClaimResponse", PasConstants.PAS_CLAIM_RESPONSE_PROFILE_URL, result);
+    logAndReportValidation("ClaimResponse", PasConstants.PAS_CLAIM_RESPONSE_PROFILE_URL, result);
   }
 
   @Test
@@ -115,9 +114,7 @@ class PasProfileValidationTest {
 
     ValidationResult result = fhirValidator.validateWithResult(beneficiary);
     logAndReportValidation(
-        "Patient",
-        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-        result);
+        "Patient", "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient", result);
   }
 
   @Test
@@ -144,7 +141,8 @@ class PasProfileValidationTest {
     assertNotNull(responseBundle);
 
     ValidationResult result = fhirValidator.validateWithResult(responseBundle);
-    logAndReportValidation("Bundle (Response)", PasConstants.PAS_RESPONSE_BUNDLE_PROFILE_URL, result);
+    logAndReportValidation(
+        "Bundle (Response)", PasConstants.PAS_RESPONSE_BUNDLE_PROFILE_URL, result);
   }
 
   private void logAndReportValidation(
@@ -235,8 +233,7 @@ class PasProfileValidationTest {
     ExplanationOfBenefit.ItemComponent item = new ExplanationOfBenefit.ItemComponent();
     item.setSequence(1);
     item.setProductOrService(
-        new CodeableConcept(
-            new Coding("http://www.ama-assn.org/go/cpt", "99213", "Office visit")));
+        new CodeableConcept(new Coding("http://www.ama-assn.org/go/cpt", "99213", "Office visit")));
     eob.addItem(item);
 
     ExplanationOfBenefit.InsuranceComponent ins = new ExplanationOfBenefit.InsuranceComponent();

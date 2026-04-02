@@ -13,7 +13,6 @@ import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.ClaimResponse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.RemittanceOutcome;
 import org.junit.jupiter.api.BeforeEach;
@@ -171,8 +170,7 @@ class ClaimResponseMapperTest {
     ClaimResponse.ItemComponent item = response.getItem().get(0);
     assertTrue(
         item.getExtension().stream()
-            .anyMatch(
-                e -> PasConstants.ITEM_PREAUTH_ISSUE_DATE_EXTENSION_URL.equals(e.getUrl())));
+            .anyMatch(e -> PasConstants.ITEM_PREAUTH_ISSUE_DATE_EXTENSION_URL.equals(e.getUrl())));
   }
 
   @Test
@@ -204,8 +202,7 @@ class ClaimResponseMapperTest {
   @Test
   void testBuildResponseNullClaimThrowsException() {
     assertThrows(
-        IllegalArgumentException.class,
-        () -> mapper.buildResponse(null, Collections.emptyList()));
+        IllegalArgumentException.class, () -> mapper.buildResponse(null, Collections.emptyList()));
   }
 
   @Test
@@ -217,8 +214,7 @@ class ClaimResponseMapperTest {
 
   @Test
   void testDetermineDispositionNull() {
-    assertEquals(
-        PasConstants.Disposition.PENDING, ClaimResponseMapper.determineDisposition(null));
+    assertEquals(PasConstants.Disposition.PENDING, ClaimResponseMapper.determineDisposition(null));
   }
 
   @Test
@@ -245,8 +241,7 @@ class ClaimResponseMapperTest {
   @Test
   void testMapOutcomePending() {
     assertEquals(
-        RemittanceOutcome.QUEUED,
-        ClaimResponseMapper.mapOutcome(PasConstants.Disposition.PENDING));
+        RemittanceOutcome.QUEUED, ClaimResponseMapper.mapOutcome(PasConstants.Disposition.PENDING));
   }
 
   @Test

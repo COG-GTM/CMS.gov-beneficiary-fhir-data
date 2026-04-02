@@ -44,8 +44,7 @@ public final class PasConstants {
       "https://codesystem.x12.org/external/886";
 
   // MBI Identifier System
-  public static final String MBI_IDENTIFIER_SYSTEM =
-      "http://hl7.org/fhir/sid/us-mbi";
+  public static final String MBI_IDENTIFIER_SYSTEM = "http://hl7.org/fhir/sid/us-mbi";
 
   /**
    * Enum for the ClaimResponse Disposition field. Values are Granted, Denied, Partial, Pending,
@@ -86,8 +85,8 @@ public final class PasConstants {
   }
 
   /**
-   * Enum for the ClaimResponse.item reviewAction extensions used for X12 HCR01 Response Code.
-   * Codes taken from X12 and CMS.
+   * Enum for the ClaimResponse.item reviewAction extensions used for X12 HCR01 Response Code. Codes
+   * taken from X12 and CMS.
    */
   public enum ReviewAction {
     APPROVED("A1", "Certified in total"),

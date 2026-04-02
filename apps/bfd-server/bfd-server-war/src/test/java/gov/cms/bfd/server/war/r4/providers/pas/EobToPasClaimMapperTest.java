@@ -42,8 +42,9 @@ class EobToPasClaimMapperTest {
     Claim claim = mapper.map(eob);
 
     assertNotNull(claim.getMeta());
-    assertTrue(claim.getMeta().getProfile().stream()
-        .anyMatch(p -> PasConstants.PAS_CLAIM_PROFILE_URL.equals(p.getValue())));
+    assertTrue(
+        claim.getMeta().getProfile().stream()
+            .anyMatch(p -> PasConstants.PAS_CLAIM_PROFILE_URL.equals(p.getValue())));
   }
 
   @Test
@@ -58,8 +59,12 @@ class EobToPasClaimMapperTest {
   @Test
   void testMapCopiesType() {
     ExplanationOfBenefit eob = createBasicEob();
-    CodeableConcept type = new CodeableConcept(
-        new Coding("http://terminology.hl7.org/CodeSystem/claim-type", "professional", "Professional"));
+    CodeableConcept type =
+        new CodeableConcept(
+            new Coding(
+                "http://terminology.hl7.org/CodeSystem/claim-type",
+                "professional",
+                "Professional"));
     eob.setType(type);
 
     Claim claim = mapper.map(eob);
@@ -105,7 +110,8 @@ class EobToPasClaimMapperTest {
     ExplanationOfBenefit eob = createBasicEob();
     ExplanationOfBenefit.DiagnosisComponent diag = new ExplanationOfBenefit.DiagnosisComponent();
     diag.setSequence(1);
-    diag.setDiagnosis(new CodeableConcept(new Coding("http://hl7.org/fhir/sid/icd-10-cm", "J06.9", "URI")));
+    diag.setDiagnosis(
+        new CodeableConcept(new Coding("http://hl7.org/fhir/sid/icd-10-cm", "J06.9", "URI")));
     eob.addDiagnosis(diag);
 
     Claim claim = mapper.map(eob);
@@ -120,7 +126,8 @@ class EobToPasClaimMapperTest {
     ExplanationOfBenefit eob = createBasicEob();
     ExplanationOfBenefit.ItemComponent eobItem = new ExplanationOfBenefit.ItemComponent();
     eobItem.setSequence(1);
-    eobItem.setProductOrService(new CodeableConcept(new Coding("http://www.ama-assn.org/go/cpt", "99213", "Office visit")));
+    eobItem.setProductOrService(
+        new CodeableConcept(new Coding("http://www.ama-assn.org/go/cpt", "99213", "Office visit")));
     eobItem.setServiced(new DateTimeType(new Date()));
     eob.addItem(eobItem);
 
@@ -133,10 +140,12 @@ class EobToPasClaimMapperTest {
     assertEquals(1, claimItem.getSequence());
 
     // Verify PAS extensions are present
-    assertTrue(claimItem.getExtension().stream()
-        .anyMatch(e -> PasConstants.ITEM_REQUESTED_SERVICE_DATE.equals(e.getUrl())));
-    assertTrue(claimItem.getExtension().stream()
-        .anyMatch(e -> PasConstants.ITEM_TRACE_NUMBER_EXTENSION_URL.equals(e.getUrl())));
+    assertTrue(
+        claimItem.getExtension().stream()
+            .anyMatch(e -> PasConstants.ITEM_REQUESTED_SERVICE_DATE.equals(e.getUrl())));
+    assertTrue(
+        claimItem.getExtension().stream()
+            .anyMatch(e -> PasConstants.ITEM_TRACE_NUMBER_EXTENSION_URL.equals(e.getUrl())));
   }
 
   @Test
@@ -190,8 +199,12 @@ class EobToPasClaimMapperTest {
 
   private ExplanationOfBenefit createBasicEob() {
     ExplanationOfBenefit eob = new ExplanationOfBenefit();
-    eob.setType(new CodeableConcept(
-        new Coding("http://terminology.hl7.org/CodeSystem/claim-type", "institutional", "Institutional")));
+    eob.setType(
+        new CodeableConcept(
+            new Coding(
+                "http://terminology.hl7.org/CodeSystem/claim-type",
+                "institutional",
+                "Institutional")));
     eob.setPatient(new Reference("Patient/test-patient"));
     eob.setProvider(new Reference("Practitioner/test-provider"));
     return eob;

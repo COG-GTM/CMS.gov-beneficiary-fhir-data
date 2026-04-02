@@ -17,9 +17,9 @@ import org.hl7.fhir.r4.model.StringType;
 import org.springframework.stereotype.Component;
 
 /**
- * Builds a PAS-profiled {@link ClaimResponse} from a submitted {@link Claim}. Includes
- * reviewAction extensions, authorizationNumber, and disposition aggregation logic modeled after the
- * PAS RI's ClaimResponseFactory.determineDisposition().
+ * Builds a PAS-profiled {@link ClaimResponse} from a submitted {@link Claim}. Includes reviewAction
+ * extensions, authorizationNumber, and disposition aggregation logic modeled after the PAS RI's
+ * ClaimResponseFactory.determineDisposition().
  */
 @Component
 public class ClaimResponseMapper {
@@ -74,8 +74,7 @@ public class ClaimResponseMapper {
         Extension reviewActionExt = new Extension(PasConstants.REVIEW_ACTION_EXTENSION_URL);
         reviewActionExt.addExtension(
             new Extension(
-                PasConstants.REVIEW_ACTION_CODE_EXTENSION_URL,
-                reviewAction.toCodeableConcept()));
+                PasConstants.REVIEW_ACTION_CODE_EXTENSION_URL, reviewAction.toCodeableConcept()));
         responseItem.addExtension(reviewActionExt);
 
         // Add authorizationNumber extension

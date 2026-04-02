@@ -75,8 +75,7 @@ class PatientToPasBeneficiaryMapperTest {
     patient.setGender(Enumerations.AdministrativeGender.MALE);
     patient.setBirthDate(new Date());
     // No MBI identifier
-    patient.addIdentifier(
-        new Identifier().setSystem("http://example.org/other").setValue("12345"));
+    patient.addIdentifier(new Identifier().setSystem("http://example.org/other").setValue("12345"));
 
     assertThrows(IllegalArgumentException.class, () -> mapper.map(patient));
   }

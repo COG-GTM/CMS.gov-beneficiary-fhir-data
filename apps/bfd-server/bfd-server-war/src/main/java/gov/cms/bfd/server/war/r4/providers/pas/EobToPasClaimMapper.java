@@ -128,8 +128,7 @@ public class EobToPasClaimMapper {
     if (eob.hasSupportingInfo()) {
       List<Claim.SupportingInformationComponent> supportingInfos = new ArrayList<>();
       for (ExplanationOfBenefit.SupportingInformationComponent eobInfo : eob.getSupportingInfo()) {
-        Claim.SupportingInformationComponent claimInfo =
-            new Claim.SupportingInformationComponent();
+        Claim.SupportingInformationComponent claimInfo = new Claim.SupportingInformationComponent();
         claimInfo.setSequence(eobInfo.getSequence());
         claimInfo.setCategory(eobInfo.getCategory());
         if (eobInfo.hasCode()) {

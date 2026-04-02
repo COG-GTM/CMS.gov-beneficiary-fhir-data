@@ -1,7 +1,6 @@
 package gov.cms.bfd.server.war.r4.providers.pas;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hl7.fhir.r4.model.Bundle;
@@ -143,8 +142,7 @@ class PasClaimValidatorTest {
 
     assertFalse(validator.isValid(outcome));
     assertTrue(
-        outcome.getIssue().stream()
-            .anyMatch(i -> i.getDiagnostics().contains("must have a type")));
+        outcome.getIssue().stream().anyMatch(i -> i.getDiagnostics().contains("must have a type")));
   }
 
   @Test
@@ -277,7 +275,8 @@ class PasClaimValidatorTest {
     claim.setProvider(new Reference("Practitioner/test-provider"));
     claim.setPriority(
         new CodeableConcept(
-            new Coding("http://terminology.hl7.org/CodeSystem/processpriority", "normal", "Normal")));
+            new Coding(
+                "http://terminology.hl7.org/CodeSystem/processpriority", "normal", "Normal")));
 
     Claim.InsuranceComponent insurance = new Claim.InsuranceComponent();
     insurance.setSequence(1);
@@ -308,7 +307,8 @@ class PasClaimValidatorTest {
     claim.setProvider(new Reference("Practitioner/test-provider"));
     claim.setPriority(
         new CodeableConcept(
-            new Coding("http://terminology.hl7.org/CodeSystem/processpriority", "normal", "Normal")));
+            new Coding(
+                "http://terminology.hl7.org/CodeSystem/processpriority", "normal", "Normal")));
 
     Claim.InsuranceComponent insurance = new Claim.InsuranceComponent();
     insurance.setSequence(1);

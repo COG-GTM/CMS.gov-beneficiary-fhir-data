@@ -188,14 +188,16 @@ public class PasClaimValidator {
     OperationOutcome outcome = new OperationOutcome();
 
     for (String error : errors) {
-      outcome.addIssue()
+      outcome
+          .addIssue()
           .setSeverity(OperationOutcome.IssueSeverity.ERROR)
           .setCode(OperationOutcome.IssueType.INVALID)
           .setDiagnostics(error);
     }
 
     for (String warning : warnings) {
-      outcome.addIssue()
+      outcome
+          .addIssue()
           .setSeverity(OperationOutcome.IssueSeverity.WARNING)
           .setCode(OperationOutcome.IssueType.INFORMATIONAL)
           .setDiagnostics(warning);

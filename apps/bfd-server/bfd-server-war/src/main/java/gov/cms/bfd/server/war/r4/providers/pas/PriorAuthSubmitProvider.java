@@ -72,15 +72,15 @@ public class PriorAuthSubmitProvider implements IResourceProvider {
     OperationOutcome outcome = validator.validate(bundle);
     if (!validator.isValid(outcome)) {
       logger.warn("PAS $submit validation failed: {}", formatOutcome(outcome));
-      throw new UnprocessableEntityException(
-          "PAS $submit validation failed", outcome);
+      throw new UnprocessableEntityException("PAS $submit validation failed", outcome);
     }
 
     // Extract the Claim from the bundle
     Resource firstResource = bundle.getEntry().get(0).getResource();
     Claim claim = (Claim) firstResource;
 
-    logger.info("Processing PAS $submit for Claim with {} items",
+    logger.info(
+        "Processing PAS $submit for Claim with {} items",
         claim.hasItem() ? claim.getItem().size() : 0);
 
     // Build the ClaimResponse (default: all items pended)
@@ -89,8 +89,8 @@ public class PriorAuthSubmitProvider implements IResourceProvider {
     // Wrap in response Bundle
     Bundle responseBundle = claimResponseMapper.wrapInBundle(claimResponse);
 
-    logger.info("PAS $submit completed successfully with disposition: {}",
-        claimResponse.getDisposition());
+    logger.info(
+        "PAS $submit completed successfully with disposition: {}", claimResponse.getDisposition());
 
     return responseBundle;
   }
