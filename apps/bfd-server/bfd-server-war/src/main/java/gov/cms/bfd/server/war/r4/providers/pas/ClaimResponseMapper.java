@@ -132,7 +132,10 @@ public class ClaimResponseMapper {
    * @return a PAS-profiled ClaimResponse with pended items
    */
   public ClaimResponse buildDefaultResponse(Claim claim) {
-    if (claim == null || !claim.hasItem()) {
+    if (claim == null) {
+      throw new IllegalArgumentException("Claim must not be null");
+    }
+    if (!claim.hasItem()) {
       return buildResponse(claim, null);
     }
     List<PasConstants.ReviewAction> actions = new ArrayList<>();

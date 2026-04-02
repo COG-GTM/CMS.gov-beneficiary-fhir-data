@@ -241,9 +241,12 @@ public final class PasClaimMapper {
     CodeableConcept normalized = new CodeableConcept();
     for (Coding coding : source.getCoding()) {
       String system = coding.getSystem();
-      // Normalize CMS-specific ICD-10 URLs to standard FHIR URL
+      // Normalize known BFD/CMS ICD-10 URLs to the standard FHIR ICD-10-CM URL.
+      // Use explicit equals() checks to avoid incorrectly rewriting non-CM variants
+      // like ICD-10-PCS (http://hl7.org/fhir/sid/icd-10-pcs).
       if (system != null
-          && (system.contains("icd10") || system.contains("ICD10") || system.contains("icd-10"))) {
+          && (system.equals("http://hl7.org/fhir/sid/icd-10")
+              || system.equals("http://www.cms.gov/Medicare/Coding/ICD10"))) {
         system = PasConstants.CODE_SYSTEM_ICD10_CM;
       }
       normalized.addCoding(
