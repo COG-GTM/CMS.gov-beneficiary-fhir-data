@@ -2,10 +2,8 @@ package gov.cms.bfd.server.war.r4.providers.pas;
 
 import ca.uhn.fhir.rest.annotation.Operation;
 import ca.uhn.fhir.rest.annotation.OperationParam;
-import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.InvalidRequestException;
 import ca.uhn.fhir.rest.server.exceptions.UnprocessableEntityException;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.ClaimResponse;
@@ -23,7 +21,7 @@ import org.springframework.stereotype.Component;
  * <p>Follows the pattern from ClaimEndpoint.submitOperation() in the PAS RI.
  */
 @Component
-public class PriorAuthSubmitProvider implements IResourceProvider {
+public class PriorAuthSubmitProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(PriorAuthSubmitProvider.class);
 
@@ -40,11 +38,6 @@ public class PriorAuthSubmitProvider implements IResourceProvider {
       PasClaimValidator validator, ClaimResponseMapper claimResponseMapper) {
     this.validator = validator;
     this.claimResponseMapper = claimResponseMapper;
-  }
-
-  @Override
-  public Class<? extends IBaseResource> getResourceType() {
-    return Claim.class;
   }
 
   /**

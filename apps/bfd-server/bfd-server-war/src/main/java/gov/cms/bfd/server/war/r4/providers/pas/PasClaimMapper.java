@@ -170,7 +170,7 @@ public final class PasClaimMapper {
       Claim.DiagnosisComponent claimDiag = new Claim.DiagnosisComponent();
       claimDiag.setSequence(eobDiag.getSequence());
 
-      if (eobDiag.getDiagnosisCodeableConcept() != null) {
+      if (eobDiag.hasDiagnosisCodeableConcept()) {
         claimDiag.setDiagnosis(normalizeIcd10Code(eobDiag.getDiagnosisCodeableConcept()));
       }
 
@@ -199,7 +199,7 @@ public final class PasClaimMapper {
       Claim.ProcedureComponent claimProc = new Claim.ProcedureComponent();
       claimProc.setSequence(eobProc.getSequence());
 
-      if (eobProc.getProcedureCodeableConcept() != null) {
+      if (eobProc.hasProcedureCodeableConcept()) {
         claimProc.setProcedure(eobProc.getProcedureCodeableConcept());
       }
       if (eobProc.getDate() != null) {
