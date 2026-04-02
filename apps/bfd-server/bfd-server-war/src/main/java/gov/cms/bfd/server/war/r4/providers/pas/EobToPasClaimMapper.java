@@ -75,13 +75,16 @@ public class EobToPasClaimMapper {
                 ProcessPriority.NORMAL.toCode(),
                 ProcessPriority.NORMAL.getDisplay())));
 
-    // Map diagnosis
+    // Map diagnosis with ICD-10 normalization (consistent with PasClaimMapper.mapDiagnoses)
     if (eob.hasDiagnosis()) {
       List<Claim.DiagnosisComponent> diagnoses = new ArrayList<>();
       for (ExplanationOfBenefit.DiagnosisComponent eobDiag : eob.getDiagnosis()) {
         Claim.DiagnosisComponent claimDiag = new Claim.DiagnosisComponent();
         claimDiag.setSequence(eobDiag.getSequence());
-        claimDiag.setDiagnosis(eobDiag.getDiagnosis());
+        if (eobDiag.hasDiagnosisCodeableConcept()) {
+          claimDiag.setDiagnosis(
+              PasClaimMapper.normalizeIcd10Code(eobDiag.getDiagnosisCodeableConcept()));
+        }
         if (eobDiag.hasType()) {
           claimDiag.setType(eobDiag.getType());
         }

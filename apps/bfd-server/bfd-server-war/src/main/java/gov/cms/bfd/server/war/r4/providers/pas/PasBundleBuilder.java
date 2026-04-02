@@ -89,37 +89,13 @@ public final class PasBundleBuilder {
    * @return a PAS-conformant Patient resource
    */
   static Patient buildPasBeneficiary(Patient source) {
-    Patient patient = new Patient();
+    // Deep copy to avoid sharing mutable list references with the source Patient
+    Patient patient = source.copy();
     patient.setId(UUID.randomUUID().toString());
 
     Meta meta = new Meta();
     meta.addProfile(PasConstants.PROFILE_PAS_BENEFICIARY);
     patient.setMeta(meta);
-
-    // Copy identifiers (MBI)
-    if (source.hasIdentifier()) {
-      patient.setIdentifier(source.getIdentifier());
-    }
-
-    // Copy name
-    if (source.hasName()) {
-      patient.setName(source.getName());
-    }
-
-    // Copy gender
-    if (source.hasGender()) {
-      patient.setGender(source.getGender());
-    }
-
-    // Copy birthDate
-    if (source.hasBirthDate()) {
-      patient.setBirthDate(source.getBirthDate());
-    }
-
-    // Copy address
-    if (source.hasAddress()) {
-      patient.setAddress(source.getAddress());
-    }
 
     return patient;
   }
