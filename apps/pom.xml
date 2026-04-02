@@ -902,6 +902,7 @@
                             <nonFilteredFileExtension>txt</nonFilteredFileExtension>
                             <nonFilteredFileExtension>jks</nonFilteredFileExtension>
                             <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>tgz</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
                     </configuration>
                 </plugin>

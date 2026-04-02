@@ -1,0 +1,225 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Claim",
+        "id": "pas-claim-001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-claim"
+          ]
+        },
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+              "code": "professional",
+              "display": "Professional"
+            }
+          ]
+        },
+        "use": "preauthorization",
+        "patient": {
+          "reference": "Patient/pas-patient-001"
+        },
+        "created": "2026-04-01",
+        "provider": {
+          "reference": "Practitioner/pas-practitioner-001"
+        },
+        "priority": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/processpriority",
+              "code": "normal",
+              "display": "Normal"
+            }
+          ]
+        },
+        "insurance": [
+          {
+            "sequence": 1,
+            "focal": true,
+            "coverage": {
+              "reference": "Coverage/pas-coverage-001"
+            }
+          }
+        ],
+        "diagnosis": [
+          {
+            "sequence": 1,
+            "diagnosisCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                  "code": "M54.5",
+                  "display": "Low back pain"
+                }
+              ]
+            }
+          }
+        ],
+        "item": [
+          {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-itemRequestedServiceDate",
+                "valueDateTime": "2026-04-15"
+              },
+              {
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-itemTraceNumber",
+                "valueIdentifier": {
+                  "system": "http://example.org/ITEM_TRACE_NUMBER",
+                  "value": "trace-001"
+                }
+              }
+            ],
+            "sequence": 1,
+            "productOrService": {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "97110",
+                  "display": "Therapeutic exercises"
+                }
+              ]
+            }
+          },
+          {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-itemRequestedServiceDate",
+                "valueDateTime": "2026-04-15"
+              },
+              {
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-itemTraceNumber",
+                "valueIdentifier": {
+                  "system": "http://example.org/ITEM_TRACE_NUMBER",
+                  "value": "trace-002"
+                }
+              }
+            ],
+            "sequence": 2,
+            "productOrService": {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "97140",
+                  "display": "Manual therapy techniques"
+                }
+              ]
+            }
+          }
+        ],
+        "supportingInfo": [
+          {
+            "sequence": 1,
+            "category": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+                  "code": "info",
+                  "display": "Information"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "pas-patient-001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-mbi",
+            "value": "1S00E00AA00"
+          }
+        ],
+        "name": [
+          {
+            "family": "Smith",
+            "given": [
+              "John",
+              "A"
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1950-07-15",
+        "address": [
+          {
+            "line": [
+              "123 Main St"
+            ],
+            "city": "Baltimore",
+            "state": "MD",
+            "postalCode": "21201"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "pas-coverage-001",
+        "status": "active",
+        "subscriberId": "1S00E00AA00",
+        "beneficiary": {
+          "reference": "Patient/pas-patient-001"
+        },
+        "payor": [
+          {
+            "reference": "Organization/pas-org-001"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "pas-practitioner-001",
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1234567890"
+          }
+        ],
+        "name": [
+          {
+            "family": "Jones",
+            "given": [
+              "Mary"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "pas-org-001",
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "0987654321"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.4",
+            "value": "12-3456789"
+          }
+        ],
+        "name": "CMS Medicare",
+        "active": true
+      }
+    }
+  ]
+}
