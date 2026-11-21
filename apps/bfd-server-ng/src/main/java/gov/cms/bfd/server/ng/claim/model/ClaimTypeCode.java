@@ -297,6 +297,9 @@ public enum ClaimTypeCode {
   private static final String PART_A_DISPLAY = "Part A";
   private static final String PART_B_DISPLAY = "Part B";
 
+  private static final Map<Integer, ClaimTypeCode> BY_CODE =
+      Arrays.stream(values()).collect(Collectors.toMap(ClaimTypeCode::getCode, e -> e));
+
   /**
    * Converts from a database code.
    *
@@ -304,9 +307,7 @@ public enum ClaimTypeCode {
    * @return claim type code
    */
   public static ClaimTypeCode fromCode(int code) {
-    return Arrays.stream(values())
-        .collect(Collectors.toMap(ClaimTypeCode::getCode, e -> e))
-        .get(code);
+    return BY_CODE.get(code);
   }
 
   Optional<ClaimContext> toContext() {

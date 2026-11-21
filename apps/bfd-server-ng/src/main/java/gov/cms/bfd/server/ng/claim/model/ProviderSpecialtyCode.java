@@ -2,6 +2,7 @@ package gov.cms.bfd.server.ng.claim.model;
 
 import gov.cms.bfd.server.ng.util.SystemUrls;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -322,10 +323,11 @@ public enum ProviderSpecialtyCode {
   private final String display;
   private final String taxonomyCode;
 
+  private static final Map<String, ProviderSpecialtyCode> BY_CODE =
+      Arrays.stream(values()).collect(Collectors.toMap(ProviderSpecialtyCode::getCode, e -> e));
+
   static ProviderSpecialtyCode fromCode(String code) {
-    return Arrays.stream(values())
-        .collect(Collectors.toMap(ProviderSpecialtyCode::getCode, e -> e))
-        .get(code);
+    return BY_CODE.get(code);
   }
 
   /**
