@@ -2,6 +2,7 @@ package gov.cms.bfd.server.ng.claim.model;
 
 import gov.cms.bfd.server.ng.util.SystemUrls;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -38,10 +39,11 @@ public enum ProviderIdQualifierCode {
   private final String code;
   private final String display;
 
+  private static final Map<String, ProviderIdQualifierCode> BY_CODE =
+      Arrays.stream(values()).collect(Collectors.toMap(ProviderIdQualifierCode::getCode, e -> e));
+
   static ProviderIdQualifierCode fromCode(String code) {
-    return Arrays.stream(values())
-        .collect(Collectors.toMap(ProviderIdQualifierCode::getCode, e -> e))
-        .get(code);
+    return BY_CODE.get(code);
   }
 
   /**
